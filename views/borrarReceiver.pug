@@ -1,0 +1,14 @@
+extends layout
+block content
+div(class="container")
+  div(class="row")
+    div(class="col-6")
+      div(class="card" align="center")
+        img(src="" id="frame" width="500" height="500")
+    div(class="col-6")
+      div(class="card" align="center")
+        img(src="" id="frame2" width="500" height="500")
+  div(id = "logger")
+  script(src="/socket.io/socket.io.js")
+  script(src="/javascripts/receiver.js")
+  input(type="button" value="Subscribe" onclick=" subscribeReceiver();")

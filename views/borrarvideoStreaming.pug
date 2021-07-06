@@ -1,0 +1,29 @@
+extends layout
+
+block content
+  h1 Placa: #{placa}
+  div
+    div(id = "logger")
+  div(class="row")
+    div(class="col-md-6")
+      div(class="card" )
+        div(class="card-header")
+          p algun titulo
+        div(class="card-body")
+          img(src="" id="frame" width="750" height="450")
+    div(class="col-md-6")
+      div(class="card" ) 
+        div(class="card-header")
+          h4 algun titulo
+        div(class="card-body")  
+          img(src="" id="frame2"  width="750" height="450")
+          div(class="container")
+          
+  script.
+    var ve=!{JSON.stringify(vehiculo)};
+
+    
+  input(type="button" value="Subscribe" onclick=" subscribeReceiver();")
+  script(src="/socket.io/socket.io.js")
+  script(src="/javascripts/receiver.js")
+  

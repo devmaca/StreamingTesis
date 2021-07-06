@@ -1,0 +1,79 @@
+extends layout
+
+block content
+  div(class="container")
+    div
+    <br> <br/>
+      if vehiculo._id
+        form(class="d-flex" action="/vehiculo/detalle" method="GET")
+          div(class="input-group mb-3")
+            input(type="hidden" id="idVehiculo" name="idVehiculo" value=vehiculo._id)
+            input(type="text" class="form-control" id="nombreOCi" name="nombreOCi" placeholder="nombre o carnet de usuario" aria-label="Recipient's username" aria-describedby="basic-addon2")
+            span(class="input-group-text" id="basic-addon2")
+              button(class="btn btn-outline-success" type="submit") buscar
+      else
+        form(class="d-flex" action="/vehiculo/guardar" method="GET")
+          div(class="input-group mb-3")
+            input(type="hidden" id="idVehiculo" name="idVehiculo" value=vehiculo._id)
+            input(type="text" class="form-control" id="nombreOCi" name="nombreOCi" placeholder="nombre o carnet de usuario" aria-label="Recipient's username" aria-describedby="basic-addon2")
+            span(class="input-group-text" id="basic-addon2")
+              button(class="btn btn-outline-success" type="submit") buscar
+    form(action="/vehiculo/guardar" method="POST")
+      input(type="hidden" class="form-control" id="_id" name="_id" placeholder="id" value=vehiculo._id)
+      div(class="form-group")
+        label(for="idUsuario") Seleccionar un Chofer
+        select(class="form-select" id="idUsuario" name="idUsuario" aria-label="Usuario Asignado")
+          option(selected) Seleccionar un Chofer
+          each usuario in usuarios
+            option(value=usuario._id)=`${usuario.nombre} ${usuario.apellido} CI: ${usuario.ci}`
+      div(class="form-group")
+        label(for="inputMovil") Numero de Movil
+        input(type="text" class="form-control" id="numeroMovil" name="numeroMovil" value=vehiculo.numeroMovil||"" placeholder="Numero de Movil")
+      div(class="form-group")
+        label(for="inputPlaca") Placa
+        input(type="text" class="form-control" id="placa" name="placa" value=vehiculo.placa||"" placeholder="Placa")
+      div(class="form-group")
+        label(for="inputChasis") Chasis
+        input(type="text" class="form-control" id="chasis" name="chasis" placeholder="Chasis" value=vehiculo.chasis||"")
+      div(class="form-group")
+        label(for="inputModelo") Modelo
+        input(type="text" class="form-control" id="modelo" name="modelo" placeholder="Modelo" value=vehiculo.modelo||"")
+      div(class="form-group")
+        label(for="inputMarca") Marca
+        input(type="text" class="form-control" id="marca" name="marca" placeholder="Marca" value=vehiculo.marca||"")
+      div(class="form-group")
+        label(for="inputColor") Color
+        input(type="text" class="form-control" id="color" name="color" placeholder="Color" value=vehiculo.color||"")
+      div(class="form-group")
+        label(for="estado") Estado
+        select(class="form-control" id="estado" name="estado")
+          if vehiculo.estado!=null 
+            option(value=vehiculo.estado selected)=vehiculo.estado==0?'Inactivo':'Activo' 
+          else
+            option Seleccione
+          option(value=1) Activo
+          option(value=0) Inactivo
+      div(class="form-group")
+        label(for="inputAudio1") Microfono 1 (Audio)
+        input(type="text" class="form-control" id="aud1" name="aud1" value=vehiculo.aud1||"")
+      div(class="form-group")
+        label(for="inputVideo1") Camara 1 (Video)
+        input(type="text" class="form-control" id="vid1" name="vid1" value=vehiculo.vid1||"")
+      div(class="form-group")
+        label(for="inputAudio2") Microfono 2 (Audio)
+        input(type="text" class="form-control" id="aud2" name="aud2" value=vehiculo.aud2||"")
+      div(class="form-group")
+        label(for="inputVideo2") Camara 2 (Video)
+        input(type="text" class="form-control" id="vid2" name="vid2" value=vehiculo.vid2||"")
+      if vehiculo._id
+        button(type="submit" class="btn btn-success" href="/vehiculo/listar") Actualizar
+      else 
+        button(type="submit" class="btn btn-success" href="/vehiculo/listar") Guardar
+        <a href="/vehiculo/listar" type="submit" class="btn btn-outline-primary start-50">Cancelar</a>
+    button(class="btn btn-primary" onclick="getMediaDevice()") Obtener idMediaDevices
+    div(class="row")
+      div(class="col-12" id="areaVid")
+
+      div(class="col-12" id="areaAud")
+
+    script(src="/javascripts/getIdMedia.js")

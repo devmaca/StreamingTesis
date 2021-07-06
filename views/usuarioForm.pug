@@ -1,0 +1,87 @@
+extends layout
+
+block content
+  div(class="container")
+    if (sesion.rol==3&&(usuario.rol==1||usuario.rol==3))
+      div(class="alert alert-primary" role="alert")
+        p  No tiene permisos para ver este rol
+    else
+      hr.bg-success
+      p.text-danger.small.pt-0.mt-0 *Todos los campos son obligatorios
+      form(id="form" action="/usuario/guardar" method="POST")
+        input(type="hidden" class="form-control" id="_id" name="_id" placeholder="id" value=usuario._id||null)
+        .form-group-row
+          label(for="nombre" class="col-form-label col-sm-2") Nombre
+          .col-sm-auto
+            input(type="text" class="form-control" id="nombre" name="nombre" value=usuario.nombre||"" placeholder="Nombre")
+          label(for="apellido" class="col-form-label col-sm-2") Apellido
+          .col-sm-auto
+            input(type="text" class="form-control" id="apellido" name="apellido" value=usuario.apellido||"" placeholder="Apellido")
+       
+        div(class="form-group")
+          label(for="ci") Numero de idenficacion
+          input(type="text" class="form-control" id="ci" name="ci" value=usuario.ci||"" placeholder="Carnet de identidad")
+        div(class="form-group")
+          label(for="email") Email
+          input(type="text" class="form-control" id="email" name="email" value=usuario.email||"" placeholder="Email")
+        div(class="form-group")
+          label(for="genero") Genero
+          select(class="form-control" id="genero" name="genero")
+            if usuario.genero 
+              option(value=usuario.genero selected)=usuario.genero
+            else
+              option Seleccione
+            option(value="Mujer") Mujer
+            option(value="Hombre") Hombre
+        div(class="form-group")
+          label(for="estado") Estado
+          select(class="form-control" id="estado" name="estado")
+            if usuario.estado!=null 
+              option(value=usuario.estado selected)=usuario.estado==0?'Inactivo':'Activo' 
+            else
+              option Seleccione
+            option(value=1) Activo
+            option(value=0) Inactivo
+        label Rol de usuario
+        br
+        div(class="form-group")
+          label(for="rol") 
+          select(class="form-control" id="rol" name="rol")
+            if usuario.rol!=null 
+              option(value=usuario.rol ) Seleccione
+                if usuario.rol==1
+                  p Admin
+                if usuario.rol==2
+                  p Chofer
+                if usuario.rol==3
+                  p Operador
+            else
+              option Seleccione
+              option(value=1) Admin
+              option(value=2) Chofer
+              option(value=3) Operador
+            if sesion.rol==1
+              option(value=1) Admin
+              option(value=2) Chofer
+              option(value=3) Operador
+            if sesion.rol==3
+              option(value=2) Chofer
+        div(class="form-group")
+          label(for="direccion") direccion
+          input(type="text" class="form-control" id="direccion" name="direccion" value=usuario.direccion||"" placeholder="Direccion")
+        div(class="form-group")
+          label(for="password") password
+          input(type="password" class="form-control" id="password" name="password" value=usuario.password||"")
+        div(class="form-group")
+          label(for="passwordConfirmacion") confirmar password
+          input(type="password" class="form-control" id="passwordConfirmacion" name="passwordConfirmacion" value=usuario.passwordConfirmacion||"")
+        button(type="button" value="guardar" class="btn btn-success" onclick="enviarFormPostAlertas('form')") Guardar con validacion
+        div(class="position-relative")
+          if usuario._id
+            button(type="submit" class="btn btn-outline-primary start-50" ) Actualizar
+            
+          else 
+            button(type="submit" class="btn btn-outline-primary start-50" disabled) Guardar
+            a(href="/usuario/listar" type="submit" class="btn btn-outline-primary start-50") Cancelar
+  script
+    include usuario.js

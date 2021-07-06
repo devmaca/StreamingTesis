@@ -1,0 +1,10 @@
+extends layout
+block content
+  h1= title
+  p Welcome to #{title}
+  video(id = "video" autoplay="true" style="width: 680px; heigth: 320px;")
+  video(id = "video2" autoplay="true" style="width: 680px; heigth: 320px;")
+  div(id = "logger")
+  input(type="button" value="Subscribe" onclick="subscribeTransmiter();")
+  script(src="/socket.io/socket.io.js")
+  script(src="/javascripts/transmiter.js")

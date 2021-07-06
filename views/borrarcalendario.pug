@@ -1,0 +1,34 @@
+extends layout
+    
+block content
+  link(rel="stylesheet" href="http://code.jquery.com/ui/1.10.1/themes/base/jquery-ui.css")
+  script(src="http://code.jquery.com/jquery-1.9.1.js")
+  script(src="http://code.jquery.com/ui/1.10.1/jquery-ui.js")
+  h1(align="center") Seleccionar fecha...
+  input(id="datepicker" placeholder="Fecha" name="trip-start")
+  input(type="text" id="horaFecha" placeholder="Horas")
+  input(type="button" value="Aceptar" onclick="vid();")
+  div(class="row")
+    div(class="column col-md-6")
+      div(class="card" align="center")
+        div(class="card-header")
+          h4
+            b Camara 1
+        div(class="card-body")
+          video(id="video1" name="video1" autoplay="true" type="video/webm" controls style="width: 500px; heigth: 320px;")
+            source(src="intro.webm" type="video/webm" id="webm1")
+        div(class="card-footer")
+          div(class="row" id="botton1")
+    div(class="column col-md-6")
+      div(class="card" align="center")
+        div(class="card-header")
+          h4
+            b Camara 2
+        div(class="card-body" )
+          video(id = "video2" name="video2" autoplay="true" controls style="width: 500px; heigth: 320px;")
+            source(src="intro.webm" type="video/webm" id="webm2")
+        div(class="card-footer")
+          div(class="row" id="botton2")
+  script.
+    var vehiculo=!{JSON.stringify(vehiculo)};
+  script(src="/javascripts/historialVideos.js")

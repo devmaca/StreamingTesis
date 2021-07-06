@@ -1,0 +1,106 @@
+
+extends layout
+
+block content
+  div(class="container")
+  
+    //seccion de video tanto para iniciar transmision como para ver el historial
+    div
+      div(class="row")
+        div(class="col-6")
+          h2 Videos
+    div(class="row")
+      div(class="col-6 cols-md-12")
+        img(src="" id="frame" width="0px" height="0px")
+      div(class="col-6 cols-md-12")
+        img(src="" id="frame2" width="0px" height="0px")
+    input(type="button" value="Subscribe/Unsubscribe" onclick=" subscribeReceiver();")
+    br
+    br
+    br
+
+    div(class="card-group")
+      div(class="card border-primary mb-3 center" style="max-width: 50rem;")
+        div(class="card-header") Datos Camara uno
+        video(id = "video1" autoplay="true" style="width: 680px; heigth: 320px;")
+          source(src="intro.webm" type="video/webm" id="webm1")
+        div(class="card-body")
+          p(class="card-text") algun texto para la camara 1     
+      div(class="card border-primary mb-3 center" style="max-width: 50rem;")
+        div(class="card-header") Datos camara 2
+        video(id = "video2" autoplay="true" style="width: 680px; heigth: 320px;")
+          source(src="intro.webm" type="video/webm" id="webm2")
+        div(class="card-body")
+          p(class="card-text") alguno texto para la camara 2
+    div
+      button(type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal") Historial 
+      div(class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true")
+        div(class="modal-dialog modal-dialog-scrollable")
+          div(class="modal-content")
+            div(class="modal-header")
+              h5(class="modal-title" id="exampleModalLabel") Modal title
+              button(type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close")
+            div(class="modal-body")
+              each videoN in videosVideos
+                if videoN.length>0
+                  li=`${videoN[0].fecha.getFullYear()}-${videoN[0].fecha.getMonth()+1}-${videoN[0].fecha.getDate()}  ${videoN[0].fecha.getHours()}`
+                div(class="row")
+                  each video in videoN
+                    if video.camara==1
+                      div(class="card border-warning col-2" onclick=`playVideo("${video.nombre}",${video.camara});`)
+                        div(class="card-headers")
+                          h5=`${video.fecha.getMinutes()}:${video.fecha.getSeconds()}`
+                    else 
+                      div(class="card border-success col-2" onclick=`playVideo("${video.nombre}",${video.camara});`)
+                        div(class="card-headers")
+                          h5=`${video.fecha.getMinutes()}:${video.fecha.getSeconds()}`
+            div(class="modal-footer")
+              button(type="button" class="btn btn-secondary" data-bs-dismiss="modal") Close
+              button(type="button" class="btn btn-primary") Save changes
+    //seccion de datos de asignacion de usuario y de vehiculo asignado 
+    h2 Datos de asignacion
+    div(class="card-group")
+      div(class="card border-primary mb-3 center" style="max-width: 18rem;")
+        div(class="card-header") Datos de Vehiculo
+        if asignado.idVehiculo
+          ul(class="list-group list-group-flush")
+            li(class="list-group-item")=(`numero de movil: ${asignado.idVehiculo.numeroMovil}`)
+            li(class="list-group-item")=(`placa: ${asignado.idVehiculo.placa}`)
+            li(class="list-group-item")=(`modelo: ${asignado.idVehiculo.modelo}`)
+            li(class="list-group-item")=(`marca: ${asignado.idVehiculo.marca}`)
+          div(class="card-body")
+            p(class="card-text") alguno texto por aqui antes de poner el fomulario     
+      div(class="card border-primary mb-3 center" style="max-width: 18rem;")
+        div(class="card-header") Datos de Usuario
+
+        if asignado.idUsuario
+          ul(class="list-group list-group-flush")
+            li(class="list-group-item")=(`nombre:: ${asignado.idUsuario.nombre}`)
+            li(class="list-group-item")=(`apellido: ${asignado.idUsuario.apellido}`)
+          div(class="card-body")
+            p(class="card-text") alguno texto por aqui antes de poner el fomulario     
+    br
+    br
+
+
+
+    //datos y formulario para finalizar la asignacion
+    div
+      li=`Asignado en:: ${asignado.asignadoEn.fecha.getFullYear()}-${asignado.asignadoEn.fecha.getMonth()+1}-${asignado.asignadoEn.fecha.getDate()}  ${asignado.asignadoEn.fecha.getHours()}:${asignado.asignadoEn.fecha.getMinutes()}`
+      if asignado.finalizadoEn.fecha
+        li=`Finalizado en:: ${asignado.finalizadoEn.fecha.getFullYear()}-${ asignado.finalizadoEn.fecha.getMonth()+1}-${asignado.finalizadoEn.fecha.getDate()}  ${asignado.finalizadoEn.fecha.getHours()}:${asignado.finalizadoEn.fecha.getMinutes()}` 
+      else 
+        h2 Formulario de finalizacion
+        form(action="/asignado/finalizar" method="POST")
+          input( type="hidden" id="_id" name="_id" value=asignado._id)
+          div(class="form-group")
+            label(for="descripcion") Detalles de Finalizacion
+            input(type="text" class="form-control" id="descripcion" name="descripcion" placeholder="Descripcion" style="height: 50px")
+          button(class="btn btn-outline-success" type="submit") Finalizar
+    br
+    br
+  script.
+    let vehiculo=!{JSON.stringify(asignado.idVehiculo)};
+    let asignado=!{JSON.stringify(asignado)};
+  script(src="/socket.io/socket.io.js")
+  script(src="/javascripts/receiver.js")

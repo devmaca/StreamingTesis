@@ -1,0 +1,46 @@
+extends layout
+
+block content
+  h1(align="center") #{title}
+  div(class="row")
+    div(class="column col-md-6")
+      div(class="card")
+        div(class="card-header" align="center")
+        div(class="card-body")
+          table(class="table text-center")
+            thead(class="table-dark")
+              tr
+                th(scope="col") Placa
+                th(scope="col") Opciones
+            tbody
+              each val in lista
+                tr
+                  td=val.placa
+                  td
+                    div(class="row")
+                      div(class="col-6")
+                        p(id=('st'+val.placa))
+                      div(class="col-6")
+                        a(href="/vehiculo/ver/"+val._id) edit
+    div(class="column col-md-6")
+      div(class="card" align="center")
+        div(class="card-header")
+        div(class="card-body")
+          table(class="table text-center")
+            thead(class="table-dark")
+              tr
+                th(scope="col") Placa
+            tbody
+              each val in lista
+                -console.log("asdfasd>>>>>",val.videos.length);
+                tr
+                  if val.videos.length>0
+                    td
+                      a(href="/vehiculo/videos/"+val._id)=val.placa
+                  //else 
+                    td No hay videos...
+
+  script(src="/socket.io/socket.io.js")
+  script.
+    var allLista=!{JSON.stringify(lista)};
+  script(src="/javascripts/status.js")

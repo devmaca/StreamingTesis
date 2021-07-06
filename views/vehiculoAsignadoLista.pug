@@ -1,0 +1,35 @@
+
+extends layout
+
+block content
+  div(class="container")
+    div(class="container-fluid")
+    
+      //li buscador por fecha
+    table(class="table table-hover")
+      thead
+        tr
+          th placa
+          th usuario
+          th asignado
+          th opciones
+      tbody
+        -console.log(asignados)
+        each asignado in asignados
+          tr
+            td=asignado.idVehiculo.placa
+            td=`${asignado.idUsuario.nombre}\n${asignado.idUsuario.apellido} ` 
+            td
+              p=`${asignado.asignadoEn.fecha.getFullYear()}-${asignado.asignadoEn.fecha.getMonth()+1}-${asignado.asignadoEn.fecha.getDate()}  ${asignado.asignadoEn.fecha.getHours()}:${asignado.asignadoEn.fecha.getMinutes()}`
+              if asignado.finalizadoEn.fecha
+                p=`${asignado.finalizadoEn.fecha.getFullYear()}-${ asignado.finalizadoEn.fecha.getMonth()+1}-${asignado.finalizadoEn.fecha.getDate()}  ${asignado.finalizadoEn.fecha.getHours()}:${asignado.finalizadoEn.fecha.getMinutes()}` 
+              else 
+                p Activo
+            td
+              div(class="row")
+                div(class="col-1")
+                  form(class="d-flex" action="/asignado/detalle" method="GET")
+                    input(type="hidden" id="idAsignado" name="idAsignado" value=`${asignado._id}`)
+                    button(class="btn btn-outline-success" type="submit")
+                      svg(xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-collection-play-fill" viewBox="0 0 16 16")
+                        path(d="M2.5 3.5a.5.5 0 0 1 0-1h11a.5.5 0 0 1 0 1h-11zm2-2a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1h-7zM0 13a1.5 1.5 0 0 0 1.5 1.5h13A1.5 1.5 0 0 0 16 13V6a1.5 1.5 0 0 0-1.5-1.5h-13A1.5 1.5 0 0 0 0 6v7zm6.258-6.437a.5.5 0 0 1 .507.013l4 2.5a.5.5 0 0 1 0 .848l-4 2.5A.5.5 0 0 1 6 12V7a.5.5 0 0 1 .258-.437z") 

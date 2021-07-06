@@ -1,0 +1,10 @@
+# Paquetes npm
+node_modules
+package-lock.json
+# Arhivos locales
+public/images
+public/videos
+# ngrok
+ngrok.exe
+
+serverSinDb.rar

@@ -1,0 +1,44 @@
+extends layout
+
+block content
+  div(class="container")
+    //h1(align="center") Placa: #{placa}
+    div(class="row")
+      div(class="col-6")
+        div(class="card" align="center" id="cam1")
+          h4
+            b Camara 1
+          video(id = "video" autoplay="true" style="width: 680px; heigth: 320px;")
+      div(class="col-6")
+        div(class="card" align="center" id="cam2")
+          h4
+            b Camara 2
+          video(id = "video2" autoplay="true" style="width: 680px; heigth: 320px;")
+    input(type="button" value="on" onclick="initRecordAll();")
+    input(type="button" value="off" onclick="stopRecordAll();")
+    //seccion de datos de asignacion de usuario y de vehiculo asignado 
+    h2 Datos de asignacion
+    div(class="card-group")
+      div(class="card border-primary mb-3 center" style="max-width: 18rem;")
+        div(class="card-header") Datos de Vehiculo
+        if asignado.idVehiculo
+          ul(class="list-group list-group-flush")
+            li(class="list-group-item")=(`numero de movil: ${asignado.idVehiculo.numeroMovil}`)
+            li(class="list-group-item")=(`placa: ${asignado.idVehiculo.placa}`)
+            li(class="list-group-item")=(`modelo: ${asignado.idVehiculo.modelo}`)
+            li(class="list-group-item")=(`marca: ${asignado.idVehiculo.marca}`)
+          div(class="card-body")
+            p(class="card-text") alguno texto por aqui antes de poner el fomulario     
+      div(class="card border-primary mb-3 center" style="max-width: 18rem;")
+        div(class="card-header") Datos de Usuario
+        if asignado.idUsuario
+          ul(class="list-group list-group-flush")
+            li(class="list-group-item")=(`nombre:: ${asignado.idUsuario.nombre}`)
+            li(class="list-group-item")=(`apellido: ${asignado.idUsuario.apellido}`)
+          div(class="card-body")
+            p(class="card-text") alguno texto por aqui antes de poner el fomulario     
+    script.
+      let vehiculo=!{JSON.stringify(asignado.idVehiculo)};
+      let asignado=!{JSON.stringify(asignado)};
+    script(src="/socket.io/socket.io.js")
+    script(src="/javascripts/transmiter.js")

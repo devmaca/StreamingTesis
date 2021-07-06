@@ -1,0 +1,36 @@
+
+extends layout
+
+block content
+  div(class="container")
+  
+    div(class="card border-primary mb-3 center" style="max-width: 18rem;")
+      div(class="card-header") Datos de Vehiculo
+      ul(class="list-group list-group-flush")
+        li(class="list-group-item")=(`numero de movil: ${vehiculo.numeroMovil}`)
+        li(class="list-group-item")=(`placa: ${vehiculo.placa}`)
+        li(class="list-group-item")=(`modelo: ${vehiculo.modelo}`)
+        li(class="list-group-item")=(`marca: ${vehiculo.marca}`)
+      div(class="card-body")
+        p(class="card-text") alguno texto por aqui antes de poner el fomulario     
+    br
+    div
+      form(class="d-flex" action="/asignado/asignar" method="GET")
+        div(class="input-group mb-3")
+          input(type="hidden" id="idVehiculo" name="idVehiculo" value=vehiculo._id)
+          input(type="text" class="form-control" id="nombreOCi" name="nombreOCi" placeholder="nombre o carnet de usuario" aria-label="Recipient's username" aria-describedby="basic-addon2")
+          span(class="input-group-text" id="basic-addon2")
+            button(class="btn btn-outline-success" type="submit") buscar
+    br
+    form(action="/asignado/asignar" method="POST")
+      input( type="hidden" id="idVehiculo" name="idVehiculo" value=vehiculo._id)
+      div(class="form-group")
+        label(for="idUsuario") Seleccionar un usuario
+        select(class="form-select" id="idUsuario" name="idUsuario" aria-label="Usuario Asignado")
+          option(selected) Seleccionar un Usuario para asignar
+          each usuario in usuarios
+            option(value=usuario._id)=`${usuario.nombre} ${usuario.apellido} CI: ${usuario.ci}`
+      div(class="form-group")
+        label(for="descripcion") Detalles de asignacion
+        input(type="text" class="form-control" id="descripcion" name="descripcion" placeholder="Descripcion" style="height: 100px")
+      button(class="btn btn-outline-success" type="submit") Asignar

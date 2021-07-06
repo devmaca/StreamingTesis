@@ -1,0 +1,26 @@
+
+extends layout
+
+block content
+  div(class="container")
+    div(class="row")
+      div(class="col-6")
+        if asignado.idVehiculo
+          div(class="card border-primary mb-3 center" style="max-width: 18rem;")
+            div(class="card-header") Datos de Vehiculo
+            ul(class="list-group list-group-flush")
+              li(class="list-group-item")=(`numero de movil: ${asignado.idVehiculo.numeroMovil}`)
+              li(class="list-group-item")=(`placa: ${asignado.idVehiculo.placa}`)
+              li(class="list-group-item")=(`modelo: ${asignado.idVehiculo.modelo}`)
+              li(class="list-group-item")=(`marca: ${asignado.idVehiculo.marca}`)
+            div(class="card-body")
+              p(class="card-text") alguno texto por aqui antes de poner el fomulario     
+      div(class="col-6")
+        if asignado.idUsuario
+          div(class="card border-primary mb-3 center" style="max-width: 18rem;")
+            div(class="card-header") Datos de Usuario
+            ul(class="list-group list-group-flush")
+              li(class="list-group-item")=(`nombre:: ${asignado.idUsuario.nombre}`)
+              li(class="list-group-item")=(`apellido: ${asignado.idUsuario.apellido}`)
+            div(class="card-body")
+    
