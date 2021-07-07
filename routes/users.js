@@ -8,10 +8,10 @@ let MyMidd = require("./../midleware/myMiddleware");
  * obtenemos el formulario para el registro del usuario
  */
 router.get("/guardar", function (req, res, next) {
-	// if (!(MyMidd.esAdministrador(req.session.user)||MyMidd.esOperador(req.session.user))) {
-	//   res.redirect("/login");
-	//   return;
-	// }
+	if (!(MyMidd.esAdministrador(req.session.user)||MyMidd.esOperador(req.session.user))) {
+	  res.redirect("/login");
+	  return;
+	}
 
 	//validamos al usuarios si tiene acceso
 	/***codigo  */
@@ -26,10 +26,10 @@ router.get("/guardar", function (req, res, next) {
  * si viene sin _id es un usuario nuevo asi que registramos al usuario
  */
 router.post("/guardar", async function (req, res, next) {
-	// if (!(MyMidd.esAdministrador(req.session.user)||MyMidd.esOperador(req.session.user))) {
-	//   res.redirect("/login");
-	//   return;
-	// }
+	if (!(MyMidd.esAdministrador(req.session.user)||MyMidd.esOperador(req.session.user))) {
+	  res.redirect("/login");
+	  return;
+	}
 	//validamos al usuarios si tiene acceso
 
 	//nos aseguramos que rol sea un array desde el formulario de registro

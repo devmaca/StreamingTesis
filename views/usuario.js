@@ -19,18 +19,39 @@ function validarCampos(form) {
     mostrarAlerta(form.apellido, 'No se permite datos numericos en este campo', 'warning')
     formValido = false;
   }
-  /*if (!form.telefono.value) {
+  if (!form.email.value) {
     formValido = false;
-    mostrarAlerta(form.telefono, 'Debes escribir el numero de telefono.','warning');
+    mostrarAlerta(form.email, 'Debes escribir un email.','warning');
   }
   if (!form.direccion.value) {
     formValido = false;
     mostrarAlerta(form.direccion, 'Debes escribir una direccion.','warning');
   }
- if (!form.ci.value) {
+  if (!form.ci.value) {
     formValido = false;
     mostrarAlerta(form.ci, 'Debes escribir el numero cedula de identidad.','warning');
-  }*/
+  }
+  if (!form.password.value) {
+    formValido = false;
+    mostrarAlerta(form.password, 'Debes escribir un password.','warning');
+  }
+  if (!form.rol.value) {
+    formValido = false;
+    mostrarAlerta(form.rol, 'Debes seleccionar al menos una opcion.','warning');
+  }
+  if (!form.estado.value) {
+    formValido = false;
+    mostrarAlerta(form.estado, 'Debes seleccionar al menos una opcion.','warning');
+  }
+  if (!form.genero.value) {
+    formValido = false;
+    mostrarAlerta(form.genero, 'Debes seleccionar al menos una opcion.','warning');
+  }
+  if (!form.passwordConfirmacion.value) {
+    formValido = false;
+    mostrarAlerta(form.passwordConfirmacion, 'Debes escribir un password.','warning');
+  }
+  console.log('rollll !!!! .....',form.rol.value)
   return formValido;
 }
 
@@ -67,10 +88,29 @@ function mostrarAlerta(elemento, mensaje, tipo, noCerrar) {
     //   alert.append(button);
     // }
     elemento.parentNode.append(alert);
-    elemento.setAttribute('onkeydown',`borrarAlertas(this,'${tipo}')`);
+    // elemento.setAttribute('onkeydown',`borrarAlertas(this,'${tipo}')`);
+    if(elemento.tagName == 'SELECT'){
+      elemento.setAttribute('onclick',`borrarAlertas(this,'${tipo}')`);
+    }
+    if(elemento.tagName == 'INPUT'){
+      elemento.setAttribute('onkeydown',`borrarAlertas(this,'${tipo}')`);
+    }
+    //console.log('let met physical...',elemento.parentNode)
+    
   }
 }
-
+function limpiarDatos (form){
+  form.nombre.value='';
+  form.apellido.value='';
+  form.rol.value='';
+  form.email.value  = '';
+  form.direccion.value  = '';
+  form.ci.value  = '';
+  form.password.value  = '';
+  form.estado.value  = '';
+  form.genero.value  = '';
+  form.passwordConfirmacion.value  = '';
+}
 
 function borrarAlertas(elemento, tipo) {
   // let alertas = elemento.parentNode.getElementsByClassName('alert alert-'+tipo);
@@ -78,6 +118,25 @@ function borrarAlertas(elemento, tipo) {
   for (let i=0;i<alertas.length;i++) {
     elemento.parentNode.removeChild(alertas[i]);
   }
+}
+
+function mensajeAlerta(elemento,msg){
+  let tipo = 'success';
+  let alerta = document.createElement('DIV');
+  alerta.innerHTML = msg;
+  
+  alerta.setAttribute('class','alert alert-'+tipo+' alert-dismissible fade show');
+  alerta.setAttribute('role','alert');
+
+  let button = document.createElement('BUTTON');
+  button.setAttribute('type','button');
+  button.setAttribute('class','btn-close');
+  button.setAttribute('data-bs-dismiss','alert');
+  button.setAttribute('aria-label','Close');
+  // button.innerHTML = '<span aria-hidden="true">&times;</span>';
+  alerta.append(button);
+  
+  elemento.append(alerta);
 }
 // Enviar por post y mostrar alertas
 function enviarFormPostAlertas(idform) {
@@ -107,12 +166,19 @@ function enviarFormPostAlertas(idform) {
 		}).done(function (resp) {
 			 // la peticion api se realizo correctamente
    			 console.log(1, "success", resp.msj,'  ',resp.dato);
-   			 alert(resp.msj)
+         let contenedorAlerta = document.getElementById('alertas-api');
+         contenedorAlerta.innerHTML = '';
+          if(contenedorAlerta){
+          mensajeAlerta(contenedorAlerta, resp.msj);
+         }
+         
+   			 // alert(resp.msj)
 		}).fail(function(err){
 			console.log(2, "error", err.status, err.responseJSON);
 			// alert(2, "error", err.status, err.responseJSON);
 		}).always(function(){
 			console.log(3, "complete");
+      limpiarDatos(conten)
 		})
 	}
 	else{

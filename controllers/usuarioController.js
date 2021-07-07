@@ -230,7 +230,7 @@ UsuarioCont.login = async function (reqQuery) {
 //++++++++++++++++++++++++++++++++++
 // Funcion para insertar Nuevo Usuario con Ajax
 //+++++++++++++++++++++++++++++++++++
-UsuarioCont.userPost = function(req,res){
+UsuarioCont.userPost = async function(req,res){
   //creamos el modelo de usuario
   try{
     let usuario = new Usuario({
@@ -255,9 +255,10 @@ UsuarioCont.userPost = function(req,res){
     });
 
     console.log('user: ',usuario);
+    await usuario.save();
     res.status(200).send({
         finalizado:true,
-        msj:'recibido!!!',
+        msj:'Usuario Agregado Exitosamente!!!',
         dato:usuario
     })
   }

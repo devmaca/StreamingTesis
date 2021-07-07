@@ -5,16 +5,16 @@ var router = express.Router();
 
 /* GET home page. */
 router.get("/", function (req, res, next) {
-  // if (
-  //   !(
-  //     MyMidd.esAdministrador(req.session.user) ||
-  //     MyMidd.esChofer(req.session.user) ||
-  //     MyMidd.esOperador(req.session.user)
-  //   )
-  // ) {
-  //   res.redirect("/login");
-  //   return;
-  // }
+  if (
+    !(
+      MyMidd.esAdministrador(req.session.user) ||
+      MyMidd.esChofer(req.session.user) ||
+      MyMidd.esOperador(req.session.user)
+    )
+  ) {
+    res.redirect("/login");
+    return;
+  }
   res.render("home", { title: "Inicio" ,sesion:req.session.user});
 });
 router.get("/login", function (req, res, next) {

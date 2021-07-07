@@ -2,12 +2,15 @@ extends layout
 
 block content
   div(class="container")
+
     if (sesion.rol==3&&(usuario.rol==1||usuario.rol==3))
       div(class="alert alert-primary" role="alert")
         p  No tiene permisos para ver este rol
     else
       hr.bg-success
+      .alertas-api(id="alertas-api") &nbsp;
       p.text-danger.small.pt-0.mt-0 *Todos los campos son obligatorios
+
       form(id="form" action="/usuario/guardar" method="POST")
         input(type="hidden" class="form-control" id="_id" name="_id" placeholder="id" value=usuario._id||null)
         .form-group-row
@@ -30,18 +33,18 @@ block content
             if usuario.genero 
               option(value=usuario.genero selected)=usuario.genero
             else
-              option Seleccione
-            option(value="Mujer") Mujer
-            option(value="Hombre") Hombre
+              option(value='') Seleccione
+              option(value="Mujer") Mujer
+              option(value="Hombre") Hombre
         div(class="form-group")
           label(for="estado") Estado
           select(class="form-control" id="estado" name="estado")
             if usuario.estado!=null 
               option(value=usuario.estado selected)=usuario.estado==0?'Inactivo':'Activo' 
             else
-              option Seleccione
-            option(value=1) Activo
-            option(value=0) Inactivo
+              option(value='') Seleccione
+              option(value=1) Activo
+              option(value=0) Inactivo
         label Rol de usuario
         br
         div(class="form-group")
@@ -56,7 +59,7 @@ block content
                 if usuario.rol==3
                   p Operador
             else
-              option Seleccione
+              option(value='') Seleccione
               option(value=1) Admin
               option(value=2) Chofer
               option(value=3) Operador
