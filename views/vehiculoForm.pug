@@ -7,7 +7,7 @@ block content
       if vehiculo._id
         form(class="d-flex" action="/vehiculo/detalle" method="GET")
           div(class="input-group mb-3")
-            input(type="hidden" id="idVehiculo" name="idVehiculo" value=vehiculo._id)
+            input(type="hidden" id="idVehiculo" name="idVehiculo" value=vehiculo._id || null)
             input(type="text" class="form-control" id="nombreOCi" name="nombreOCi" placeholder="nombre o carnet de usuario" aria-label="Recipient's username" aria-describedby="basic-addon2")
             span(class="input-group-text" id="basic-addon2")
               button(class="btn btn-outline-success" type="submit") buscar
@@ -18,12 +18,13 @@ block content
             input(type="text" class="form-control" id="nombreOCi" name="nombreOCi" placeholder="nombre o carnet de usuario" aria-label="Recipient's username" aria-describedby="basic-addon2")
             span(class="input-group-text" id="basic-addon2")
               button(class="btn btn-outline-success" type="submit") buscar
-    form(action="/vehiculo/guardar" method="POST")
-      input(type="hidden" class="form-control" id="_id" name="_id" placeholder="id" value=vehiculo._id)
+    .alertas-api(id="alertas-api") &nbsp;
+    form(id="form" action="/vehiculo/guardar" method="POST")
+      input(type="hidden" class="form-control" id="_id" name="_id" placeholder="id" value=vehiculo._id || null)
       div(class="form-group")
         label(for="idUsuario") Seleccionar un Chofer
         select(class="form-select" id="idUsuario" name="idUsuario" aria-label="Usuario Asignado")
-          option(selected) Seleccionar un Chofer
+          option(value='' selected) Seleccionar un Chofer
           each usuario in usuarios
             option(value=usuario._id)=`${usuario.nombre} ${usuario.apellido} CI: ${usuario.ci}`
       div(class="form-group")
@@ -50,9 +51,9 @@ block content
           if vehiculo.estado!=null 
             option(value=vehiculo.estado selected)=vehiculo.estado==0?'Inactivo':'Activo' 
           else
-            option Seleccione
-          option(value=1) Activo
-          option(value=0) Inactivo
+            option(value='') Seleccione
+            option(value=1) Activo
+            option(value=0) Inactivo
       div(class="form-group")
         label(for="inputAudio1") Microfono 1 (Audio)
         input(type="text" class="form-control" id="aud1" name="aud1" value=vehiculo.aud1||"")
@@ -68,12 +69,14 @@ block content
       if vehiculo._id
         button(type="submit" class="btn btn-success" href="/vehiculo/listar") Actualizar
       else 
-        button(type="submit" class="btn btn-success" href="/vehiculo/listar") Guardar
-        <a href="/vehiculo/listar" type="submit" class="btn btn-outline-primary start-50">Cancelar</a>
+        button(type="submit" class="btn btn-success" href="/vehiculo/listar" disabled) Guardar
+        button(type="button" class="btn btn-success" onclick="enviarFormPostAlertas('form')") Guardar con Validacion
+        a(href="/vehiculo/listar" class="btn btn-outline-primary start-50") Cancelar
     button(class="btn btn-primary" onclick="getMediaDevice()") Obtener idMediaDevices
     div(class="row")
       div(class="col-12" id="areaVid")
 
       div(class="col-12" id="areaAud")
-
-    script(src="/javascripts/getIdMedia.js")
+  script(src="/javascripts/getIdMedia.js")
+  script
+    include vehiculo.js

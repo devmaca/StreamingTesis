@@ -70,6 +70,15 @@ router.post(
     }
   }
 );
+
+// +++++++++++++++++++++++++++++++++
+// Api Rest para Vehiculo con Ajax
+// +++++++++++++++++++++++++++++++++
+router.route('/api/vehiculo')
+  .get()
+  .post(vehiculoCont.vehiculoPost)
+
+
 //cambio de estado meditane GET
 
 router.get("/estado", async function (req, res, next) {

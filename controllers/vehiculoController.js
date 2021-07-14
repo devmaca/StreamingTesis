@@ -154,4 +154,52 @@ VehiculoCont.buscarUnoParaAsignar = async function (reqQuery) {
   return await Vehiculo.findOne(query).populate("asignado");
 };
 
+
+
+//++++++++++++++++++++++++++++++++++
+// Funcion para insertar Nuevo Vehiculo con Ajax
+//+++++++++++++++++++++++++++++++++++
+VehiculoCont.vehiculoPost = async function(req,res){
+  //creamos el modelo de Vehiculo
+  try{
+    let vehiculo = new Vehiculo({
+      idPropietario: req.body.idUsuario,
+      numeroMovil: req.body.numeroMovil,
+      chasis: req.body.chasis,
+      placa: req.body.placa,
+      modelo: req.body.modelo,
+      marca: req.body.marca,
+      color: req.body.color,
+      estado: req.body.estado,
+      aud1: req.body.aud1,
+      vid1: req.body.vid1,
+      aud2: req.body.aud2,
+      vid2: req.body.vid2,
+      creadoEn: {
+        fecha: utils.getDate(),
+        idUsuario: null
+      },
+      modificadoEn: {
+        fecha: utils.getDate(),
+        idUsuario: null
+      }
+    });
+
+    console.log('vehiculo:+++++=+= ',vehiculo);
+    await vehiculo.save();
+    res.status(200).send({
+        finalizado:true,
+        msj:'Vehiculo Agregado Exitosamente!!!',
+        dato:vehiculo
+    })
+  }
+  catch(e){
+    console.log('error', e);
+      res.status(501).send({
+          finalizado: true,
+          mensaje: 'post Error',
+        });
+  }
+}
+
 module.exports = VehiculoCont;
